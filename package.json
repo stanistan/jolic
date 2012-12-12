@@ -1,0 +1,20 @@
+{
+    "name": "jolic"
+  , "version": "0.0.1"
+  , "description": "A minikanren implementation in JS."
+  , "author": "Stan Rozenraukh <stan@stanistan.com>"
+  , "repository": {
+        "type": "git"
+      , "url": "https://github.com/stanistan/jolic.git"
+    }
+  , "dependencies": {
+        "underscore": "1.4.x"
+    }
+  , "devDependencies": {
+        "jasmine-node": "1.0.x"
+    }
+  , "engine": "node >= 0.8.11"
+  , "scripts": {
+        "test": "jasmine-node ./test"
+    }
+}
