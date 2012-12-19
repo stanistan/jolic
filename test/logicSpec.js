@@ -162,3 +162,39 @@ describe('reifyS', function() {
   });
 
 });
+
+describe('mplus', function() {
+
+  it('returns the evald second if the first is null', function() {
+    var a = logic.mplus(null, function() { return 'b'});
+    expect(a).toEqual('b');
+  });
+
+  it('returns an array of the first thing', function() {
+    var a = logic.mplus(logic.lvar('a'), function() { return 'b'; });
+    expect(a[0]).toEqual(logic.lvar('a'));
+    expect(a[1]).toEqual(jasmine.any(Function))
+  });
+
+});
+
+describe('mplusLazy', function() {
+
+  var a = logic.mplusLazy(1,2,3);
+  it('should be a pair', function() {
+    expect(a.length).toEqual(2);
+    expect(a[0]).toEqual(1);
+  });
+
+  var b = a[1]();
+  it('should be a pair', function() {
+    expect(b.length).toEqual(2);
+    expect(b[0]).toEqual(2);
+  });
+
+  var c = b[1]();
+  it('should just be a val', function() {
+    expect(c).toEqual(3);
+  });
+
+});

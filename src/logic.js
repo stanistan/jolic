@@ -105,44 +105,6 @@ function delay(f) {
   };
 }
 
-function eq(val1, val2) {
-  return function(s) {
-    console.log('val1: ', val1)
-    console.log('val2: ', val2)
-    return unify(val1, val2, s);
-  }
-}
-
-function either() {
-  var goals = [].slice.call(arguments, 0);
-
-  return function(s) {
-    var r = goals.length
-      ? delay(function() {
-          return [
-              _.first(goals)(s)
-            , delay(function() { return either.apply(null, _.rest(goals)); })
-          ];
-        })
-      : delay(mzero);
-
-    console.log('end of either', r());
-    return r;
-    // if (!goals.length) return empty;
-    //  var r = [_.first(goals)(s), delay(function() { return either.apply(null, _.rest(goals))})]
-    //  console.log('heererere', r);
-    //  return r;
-    // // var r =  goals.map(function(a) {
-    // //   // console.log('goal:', a)
-    // //   return a(s)
-    // // })
-    // // // console.log('either goals: ', r)
-    // // r = [].concat.apply([], r);
-    // // return [].concat.apply([], r)
-    // // re
-  }
-}
-
 function mzero() {
   return false;
 }
@@ -154,7 +116,7 @@ function choice(a, b) {
 function ccase(thing, actions) {
 
   var action, args = [];
-  if (!!thing.length || !thing) {
+  if (!thing) {
     action = '_';
   } else if (_.isFunction(thing)) {
     action = 'f_';
@@ -219,64 +181,15 @@ function mplus(thing, f) {
 
 function mplusLazy(thing) {
   var rest = slice(arguments, 1);
-  return rest.length
+  return !!rest.length
     ? mplus(thing, function() { return mplusLazy.apply(null, rest); })
     : thing;
 }
-
-function fresh(vars) {
-  var fs = slice(arguments, 1);
-
-  return function(a) {
-    delay(function() {
-
-    })
-  }
-}
-
-function run(v /*, ... goals */) {
-
-  v = islvar(v) ? v : lvar(v);
-
-  var goals = slice(arguments, 1);
-
-
-
-  var s = empty
-    , re = []
-  for (var i = 0; i < goals.length; i++) {
-    s = goals[i](s);
-    re.push(reify(v, s))
-  }
-  console.log('finishing:', s)
-  return re
-}
-
-
-// console.log(eq(lvar('q'), 1)(empty))
-
-// var q = lvar('q');
-
-// console.log(run(q, eq(q, 1)));
-
-// console.log(
-//   run(q
-//     ,either(
-//       eq(q, 1),
-//       eq(q, 2)
-//     ))
-// )
-
-// console.log(mplus(false, function() {
-//   return 'a';
-// }));
 
 function slice(a, n) {
   n = n || 0;
   return [].slice.call(a, n);
 }
-
-
 
 exports.empty = empty;
 exports.lvar = lvar;
@@ -290,5 +203,5 @@ exports.extS = extS;
 exports.unify = unify;
 exports.walk_ = walk_;
 exports.reifyS = reifyS;
-// exports.eq = eq;
-// exports.delay
+exports.mplus = mplus;
+exports.mplusLazy = mplusLazy
