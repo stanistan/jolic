@@ -1,3 +1,3 @@
 # jolic
 
-A minikanren implementation in JS.
+An unfinished and abandoned (sorry) minikanren implementation in JS.
